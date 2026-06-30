@@ -1,5 +1,7 @@
 const bcrypt = require("bcrypt");
 const userRepository = require("../repositories/user.repository");
+const HTTP_STATUS = require("../constants/httpStatus");
+const ApiError = require("../helpers/apiError");
 
  class UserService {
     async signup(payload) {
@@ -8,7 +10,7 @@ const userRepository = require("../repositories/user.repository");
         );
 
         if (existingUser) {
-            throw new Error("Email already exists");
+            throw new ApiError(HTTP_STATUS.CONFLICT, "Email already exists");
         }
 
         const hashedPassword = await bcrypt.hash(
@@ -27,7 +29,7 @@ const userRepository = require("../repositories/user.repository");
         const user = await userRepository.findByEmail(email);
 
         if (!user) {
-            throw new Error("Invalid email or password");
+            throw new ApiError(HTTP_STATUS.UNAUTHORIZED, "Invalid email or password");
         }
 
         const isMatch = await bcrypt.compare(
@@ -36,7 +38,7 @@ const userRepository = require("../repositories/user.repository");
         );
 
         if (!isMatch) {
-            throw new Error("Invalid email or password");
+            throw new ApiError(HTTP_STATUS.UNAUTHORIZED, "Invalid email or password");
         }
 
         const token = jwt.sign(
@@ -97,7 +99,7 @@ const userRepository = require("../repositories/user.repository");
         const user = await userRepository.getById(id);
 
         if (!user) {
-            throw new Error("User not found");
+            throw new ApiError(HTTP_STATUS.NOT_FOUND, "User not found");
         }
 
         return user;
@@ -117,7 +119,7 @@ const userRepository = require("../repositories/user.repository");
         );
 
         if (!user) {
-            throw new Error("User not found");
+            throw new ApiError(HTTP_STATUS.NOT_FOUND, "User not found");
         }
 
         return user;
@@ -127,7 +129,7 @@ const userRepository = require("../repositories/user.repository");
         const deleted = await userRepository.delete(id);
 
         if (!deleted) {
-            throw new Error("User not found");
+            throw new ApiError(HTTP_STATUS.NOT_FOUND, "User not found");
         }
 
         return {

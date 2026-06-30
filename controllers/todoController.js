@@ -1,4 +1,5 @@
 const todoService = require("../services/todo.service");
+const HTTP_STATUS = require("../constants/httpStatus");
 
 class TodoController {
     async createTodo(req, res, next) {
@@ -7,7 +8,7 @@ class TodoController {
 
             const todo = await todoService.createTodo(payload);
 
-            res.status(201).json({
+            res.status(HTTP_STATUS.CREATED).json({
                 success: true,
                 message: "Todo created successfully",
                 data: todo
@@ -21,7 +22,7 @@ class TodoController {
         try {
             const todos = await todoService.getAllTodos();
 
-            res.status(200).json({
+            res.status(HTTP_STATUS.OK).json({
                 success: true,
                 data: todos
             });
@@ -37,7 +38,7 @@ class TodoController {
 
             const result = await todoService.getTodosWithPagination(page, limit);
 
-            res.status(200).json({
+            res.status(HTTP_STATUS.OK).json({
                 success: true,
                 data: result
             });
@@ -52,7 +53,7 @@ class TodoController {
 
             const todo = await todoService.getTodoById(todoId);
 
-            res.status(200).json({
+            res.status(HTTP_STATUS.OK).json({
                 success: true,
                 data: todo
             });
@@ -68,7 +69,7 @@ class TodoController {
 
             const updatedTodo = await todoService.updateTodo(todoId, payload);
 
-            res.status(200).json({
+            res.status(HTTP_STATUS.OK).json({
                 success: true,
                 message: "Todo updated successfully",
                 data: updatedTodo
@@ -84,7 +85,7 @@ class TodoController {
 
             const result = await todoService.deleteTodo(todoId);
 
-            res.status(200).json({
+            res.status(HTTP_STATUS.OK).json({
                 success: true,
                 message: result.message
             });

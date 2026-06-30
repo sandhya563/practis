@@ -71,9 +71,10 @@ class TodoService {
             throw new ApiError(HTTP_STATUS.NOT_FOUND, "Todo not found");
         }
 
-        return {
-            message: "Todo deleted successfully"
-        };
+        // return {
+        //     message: "Todo deleted successfully"
+        // };
+        return deleted;
     }
 }
 module.exports = new TodoService();

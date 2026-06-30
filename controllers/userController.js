@@ -7,7 +7,7 @@ class UserController {
 
             const user = await userService.signup(payload);
 
-            res.status(201).json({
+            res.status(HTTP_STATUS.CREATED).json({
                 success: true,
                 message: "User created successfully",
                 data: user
@@ -23,7 +23,7 @@ class UserController {
 
             const result = await userService.login(payload);
 
-            res.status(200).json({
+            res.status(HTTP_STATUS.OK).json({
                 success: true,
                 message: "Login successful",
                 data: result
@@ -37,7 +37,7 @@ class UserController {
         try {
             const users = await userService.getAllUsers();
 
-            res.status(200).json({
+            res.status(HTTP_STATUS.OK).json({
                 success: true,
                 data: users
             });
@@ -53,7 +53,7 @@ class UserController {
 
             const result = await userService.getUsersWithPagination(page, limit);
 
-            res.status(200).json({
+            res.status(HTTP_STATUS.OK).json({
                 success: true,
                 data: result
             });
@@ -66,7 +66,7 @@ class UserController {
         try {
             const user = await userService.getUserById(req.params.id);
 
-            res.status(200).json({
+            res.status(HTTP_STATUS.OK).json({
                 success: true,
                 data: user
             });
@@ -82,7 +82,7 @@ class UserController {
 
             const user = await userService.updateUser(userId, payload);
 
-            res.status(200).json({
+            res.status(HTTP_STATUS.OK).json({
                 success: true,
                 message: "User updated successfully",
                 data: user
@@ -98,7 +98,7 @@ class UserController {
 
             const result = await userService.deleteUser(userId);
 
-            res.status(200).json({
+            res.status(HTTP_STATUS.OK).json({
                 success: true,
                 message: result.message
             });

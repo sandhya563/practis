@@ -19,8 +19,12 @@ const userSchema = {
 
   password: Joi.string().min(6).optional(),
 
-  phone: Joi.string().optional(),
-
+  phone: Joi.string()
+    .pattern(/^[6-9]\d{9}$/)
+    .optional()
+    .messages({
+      "string.pattern.base": "Invalid Indian mobile number",
+    }),
   profileImage: Joi.string().optional(),
 
   isActive: Joi.boolean().optional(),
@@ -96,7 +100,7 @@ class UserValidator {
       const { error, value } = schema.validate(req.query);
 
       if (error) {
-        throw new Error(error.details[0].message);
+        throw new ApiError(400, error.details[0].message);
       }
 
       req.query = value;
