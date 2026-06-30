@@ -1,4 +1,6 @@
 const todoRepository = require("../repositories/todo.repository");
+const HTTP_STATUS = require("../constants/httpStatus");
+const ApiError = require("../helpers/apiError");
 
 class TodoService {
     async createTodo(payload) {
@@ -46,7 +48,7 @@ class TodoService {
         const todo = await todoRepository.getById(id);
 
         if (!todo) {
-            throw new Error("Todo not found");
+            throw new ApiError(HTTP_STATUS.NOT_FOUND, "Todo not found");
         }
 
         return todo;
@@ -56,7 +58,7 @@ class TodoService {
         const todo = await todoRepository.update(id, payload);
 
         if (!todo) {
-            throw new Error("Todo not found");
+            throw new ApiError(HTTP_STATUS.NOT_FOUND, "Todo not found");
         }
 
         return todo;
@@ -66,7 +68,7 @@ class TodoService {
         const deleted = await todoRepository.delete(id);
 
         if (!deleted) {
-            throw new Error("Todo not found");
+            throw new ApiError(HTTP_STATUS.NOT_FOUND, "Todo not found");
         }
 
         return {
